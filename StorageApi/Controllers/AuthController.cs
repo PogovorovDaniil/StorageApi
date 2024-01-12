@@ -1,9 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using StorageApi.Helper;
 using StorageApi.Models;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
+using StorageApi.Models.APIO;
+using StorageApi.Models.DBO;
+using StorageApi.Services;
+using System.Threading.Tasks;
 
 namespace StorageApi.Controllers
 {
@@ -12,27 +16,54 @@ namespace StorageApi.Controllers
     public class AuthController : ControllerBase
     {
         private AuthConfiguration _authConfiguration;
-        public AuthController(AuthConfiguration authConfiguration) 
+        private readonly ApplicationContext _context;
+
+        private const string rootLogin = "root";
+
+        public AuthController(AuthConfiguration authConfiguration, ApplicationContext context)
         {
             _authConfiguration = authConfiguration;
+            _context = context;
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(AuthResult), 200)]
-        public IActionResult Token(string login, string password)
+        [ProducesResponseType(typeof(AuthResult), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Token(string login, string password)
         {
-            if (login == "root" && password == _authConfiguration.RootPassword)
+            if (login == rootLogin && password == _authConfiguration.RootPassword)
             {
-                var claims = new List<Claim> { new Claim(ClaimTypes.Name, login) };
-                var jwt = new JwtSecurityToken(_authConfiguration.Issuer, _authConfiguration.Audience, claims,
-                    signingCredentials: new SigningCredentials(_authConfiguration.IssuerSigningKey, SecurityAlgorithms.Aes128CbcHmacSha256));
+                return new JsonResult(new AuthResult { Token = AuthHelper.GetNewToken(_authConfiguration, rootLogin, Roles.Admin) });
+            }
 
-                string jwtToken = new JwtSecurityTokenHandler().WriteToken(jwt);
-
-                return new JsonResult(new AuthResult { Token = jwtToken });
+            if (await _context.Users.AnyAsync(u => u.Login == login && u.PasswordHash == AuthHelper.HashString(password)))
+            {
+                return new JsonResult(new AuthResult { Token = AuthHelper.GetNewToken(_authConfiguration, login) });
             }
 
             return new UnauthorizedResult();
+        }
+
+        [HttpPost]
+        [Authorize(Roles = Roles.Admin)]
+        [ProducesResponseType(typeof(SuccessResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ExceptionResult), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ExceptionResult), StatusCodes.Status409Conflict)]
+        public async Task<IActionResult> CreateUser(PostUser postUser)
+        {
+            if(await _context.Users.AnyAsync(u => u.Login == postUser.Login))
+            {
+                return new JsonResult(new ExceptionResult("User already exist")) { StatusCode = StatusCodes.Status409Conflict };
+            }
+            await _context.Users.AddAsync(new User()
+            {
+                Login = postUser.Login,
+                Password = postUser.Password
+            });
+            if(await _context.SaveChangesAsync() == 1)
+            {
+                return new JsonResult(new SuccessResult("User added"));
+            }
+            return new JsonResult(new ExceptionResult("Unknown error")) { StatusCode = StatusCodes.Status400BadRequest };
         }
     }
 }
