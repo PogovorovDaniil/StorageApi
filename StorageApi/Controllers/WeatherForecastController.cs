@@ -1,8 +1,11 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Serilog;
+using StorageApi.Helper;
 using StorageApi.Models;
+using StorageApi.Models.APIO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,8 +29,10 @@ namespace StorageApi.Controllers
             _logger = logger;
         }
 
+        [ActionLogger]
+        [ProducesResponseType(typeof(IEnumerable<WeatherForecast>), StatusCodes.Status200OK)]
         [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
+        public IActionResult Get()
         {
             var result = Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
@@ -37,9 +42,7 @@ namespace StorageApi.Controllers
             })
             .ToArray();
 
-            Log.Information("GetWeatherForecast => {@result}", result);
-
-            return result;
+            return new JsonResult(result);
         }
     }
 }
