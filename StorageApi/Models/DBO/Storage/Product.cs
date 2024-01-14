@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace StorageApi.Models.DBO.Storage
 {
@@ -8,5 +9,6 @@ namespace StorageApi.Models.DBO.Storage
         public long Id { get; set; }
         public Brand Brand { get; set; }
         public string Name { get; set; }
+        public ICollection<Offer> Offers { get; } = new List<Offer>();
     }
 }

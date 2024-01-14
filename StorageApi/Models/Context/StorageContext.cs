@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StorageApi.Models.DBO.Storage;
 
-namespace StorageApi.Services
+namespace StorageApi.Models.Context
 {
     public class StorageContext : DbContext
     {
@@ -11,18 +11,18 @@ namespace StorageApi.Services
         public DbSet<Brand> Brands { get; set; }
         public DbSet<OfferStock> OfferStocks { get; set; }
 
-        public StorageContext(DbContextOptions<StorageContext> options) : base(options)
-        {
-            Database.EnsureCreated();
-        }
+        public StorageContext(DbContextOptions<StorageContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Offer>().HasAlternateKey(o => new { o.Product, o.Color, o.Size });
-            modelBuilder.Entity<Product>().HasAlternateKey(p => p.Name);
             modelBuilder.Entity<Store>().HasAlternateKey(s => s.Name);
             modelBuilder.Entity<Brand>().HasAlternateKey(b => b.Name);
-            modelBuilder.Entity<OfferStock>().HasAlternateKey(os => new { os.Offer, os.Store });
+
+            modelBuilder.Entity<Product>().HasAlternateKey(p => p.Name);
+            modelBuilder.Entity<Product>().HasMany(p => p.Offers).WithOne(o => o.Product);
+
+            modelBuilder.Entity<Offer>().HasAlternateKey(new string[] { "ProductId", "Color", "Size" });
+            modelBuilder.Entity<OfferStock>().HasKey(new string[] { "OfferId", "StoreId" });
         }
     }
 }
