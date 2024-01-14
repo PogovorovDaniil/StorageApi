@@ -27,9 +27,10 @@ namespace StorageApi.Helper
 
         public static string HashString(string text)
         {
+            const string salt = "88df38cb6d304c5ead276cad5662455e";
             using (SHA256 hash = SHA256.Create())
             {
-                byte[] passCode = Encoding.UTF8.GetBytes(text);
+                byte[] passCode = Encoding.UTF8.GetBytes(salt + text);
                 byte[] hashCode = hash.ComputeHash(passCode);
                 return string.Join("", hashCode.Select(c => c.ToString("X2")));
             }
