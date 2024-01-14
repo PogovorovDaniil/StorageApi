@@ -50,7 +50,7 @@ namespace StorageApi.Controllers
         [ProducesResponseType(typeof(ExceptionResult), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> CreateUser(PostUser postUser)
         {
-            if(await _context.Users.AnyAsync(u => u.Login == postUser.Login))
+            if (await _context.Users.AnyAsync(u => u.Login == postUser.Login))
             {
                 return new JsonResult(new ExceptionResult("User already exist")) { StatusCode = StatusCodes.Status409Conflict };
             }
@@ -59,7 +59,7 @@ namespace StorageApi.Controllers
                 Login = postUser.Login,
                 Password = postUser.Password
             });
-            if(await _context.SaveChangesAsync() == 1)
+            if (await _context.SaveChangesAsync() == 1)
             {
                 return new JsonResult(new SuccessResult("User added"));
             }

@@ -7,7 +7,7 @@ namespace StorageApi.Models
     public class AuthConfiguration
     {
         private readonly IConfiguration _configuration;
-        public AuthConfiguration(IConfiguration configuration) 
+        public AuthConfiguration(IConfiguration configuration)
         {
             _configuration = configuration;
         }

@@ -17,7 +17,7 @@ namespace StorageApi.Helper
             var claims = new List<Claim> { new Claim(ClaimTypes.Name, login), new Claim(ClaimTypes.Role, role) };
             var jwt = new JwtSecurityToken(
                 issuer: authConfiguration.Issuer,
-                audience: authConfiguration.Audience, 
+                audience: authConfiguration.Audience,
                 claims: claims,
                 expires: DateTime.UtcNow.AddDays(1),
                 signingCredentials: new SigningCredentials(authConfiguration.IssuerSigningKey, SecurityAlgorithms.HmacSha256));
