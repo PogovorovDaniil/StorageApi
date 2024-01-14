@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using StorageApi.Helper;
 using StorageApi.Models;
 using StorageApi.Models.APIO;
-using StorageApi.Models.DBO;
+using StorageApi.Models.DBO.Authorization;
 using StorageApi.Services;
 using System.Threading.Tasks;
 
@@ -16,11 +16,11 @@ namespace StorageApi.Controllers
     public class AuthController : ControllerBase
     {
         private AuthConfiguration _authConfiguration;
-        private readonly ApplicationContext _context;
+        private readonly AuthorizationContext _context;
 
         private const string rootLogin = "root";
 
-        public AuthController(AuthConfiguration authConfiguration, ApplicationContext context)
+        public AuthController(AuthConfiguration authConfiguration, AuthorizationContext context)
         {
             _authConfiguration = authConfiguration;
             _context = context;

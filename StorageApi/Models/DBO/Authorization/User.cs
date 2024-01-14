@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace StorageApi.Models.DBO
+namespace StorageApi.Models.DBO.Authorization
 {
     public class User
     {

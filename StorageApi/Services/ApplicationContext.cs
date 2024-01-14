@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using StorageApi.Models.DBO;
+using StorageApi.Models.DBO.Authorization;
 
 namespace StorageApi.Services
 {
-    public class ApplicationContext : DbContext
+    public class AuthorizationContext : DbContext
     {
         public DbSet<User> Users { get; set; }
 
-        public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
+        public AuthorizationContext(DbContextOptions<AuthorizationContext> options) : base(options)
         {
             Database.EnsureCreated();
         }
