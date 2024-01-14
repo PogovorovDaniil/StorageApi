@@ -1,6 +1,4 @@
-﻿using StorageApi.Helper;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace StorageApi.Models.DBO.Authorization
 {
@@ -10,7 +8,5 @@ namespace StorageApi.Models.DBO.Authorization
         public long Id { get; set; }
         public string Login { get; set; }
         public string PasswordHash { get; set; }
-        [NotMapped]
-        public string Password { set => PasswordHash = AuthHelper.HashString(value); }
     }
 }

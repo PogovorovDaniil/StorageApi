@@ -57,7 +57,7 @@ namespace StorageApi.Controllers
             await _context.Users.AddAsync(new User()
             {
                 Login = postUser.Login,
-                Password = postUser.Password
+                PasswordHash = AuthHelper.HashString(postUser.Password)
             });
             if (await _context.SaveChangesAsync() == 1)
             {
