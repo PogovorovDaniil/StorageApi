@@ -26,18 +26,18 @@ namespace StorageApi.Controllers
             _context = context;
         }
 
-        [HttpGet]
+        [HttpPost]
         [ProducesResponseType(typeof(AuthResult), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Token(string login, string password)
+        public async Task<IActionResult> Token(AuthData postUser)
         {
-            if (login == rootLogin && password == _authConfiguration.RootPassword)
+            if (postUser.Login == rootLogin && postUser.Password == _authConfiguration.RootPassword)
             {
                 return new JsonResult(new AuthResult { Token = AuthHelper.GetNewToken(_authConfiguration, rootLogin, Roles.Admin) });
             }
 
-            if (await _context.Users.AnyAsync(u => u.Login == login && u.PasswordHash == AuthHelper.HashString(password)))
+            if (await _context.Users.AnyAsync(u => u.Login == postUser.Login && u.PasswordHash == AuthHelper.HashString(postUser.Password)))
             {
-                return new JsonResult(new AuthResult { Token = AuthHelper.GetNewToken(_authConfiguration, login) });
+                return new JsonResult(new AuthResult { Token = AuthHelper.GetNewToken(_authConfiguration, postUser.Login) });
             }
 
             return new UnauthorizedResult();
@@ -48,7 +48,7 @@ namespace StorageApi.Controllers
         [ProducesResponseType(typeof(SuccessResult), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ExceptionResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ExceptionResult), StatusCodes.Status409Conflict)]
-        public async Task<IActionResult> CreateUser(PostUser postUser)
+        public async Task<IActionResult> CreateUser(AuthData postUser)
         {
             if (await _context.Users.AnyAsync(u => u.Login == postUser.Login))
             {
