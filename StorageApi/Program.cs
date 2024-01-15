@@ -3,16 +3,15 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using StorageApi.Helpers;
-using StorageApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.ConfigureSwagger();
 
-builder.Services.AddSingleton<AuthConfiguration>();
+builder.AddProjectServices();
 builder.AddDbContexts();
+builder.ConfigureSwagger();
 builder.ConfigureAuthorization();
 
 builder.Host.UseSerilog();

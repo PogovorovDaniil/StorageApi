@@ -5,13 +5,22 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using StorageApi.Models;
 using StorageApi.Models.Contexts;
+using StorageApi.Services;
 using System.Text;
 
 namespace StorageApi.Helpers
 {
     public static class WebApplicationBuilderExtension
     {
+        public static void AddProjectServices(this WebApplicationBuilder builder)
+        {
+            builder.Services.AddSingleton<AuthConfiguration>();
+            builder.Services.AddTransient<AuthService>();
+            builder.Services.AddTransient<StorageService>();
+        }
+
         public static void AddDbContexts(this WebApplicationBuilder builder)
         {
             builder.Services.AddDbContext<AuthorizationContext>(

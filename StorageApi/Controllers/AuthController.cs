@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using StorageApi.Helpers;
 using StorageApi.Models;
 using StorageApi.Models.APIO;
-using StorageApi.Models.Contexts;
-using StorageApi.Models.DBO.Authorization;
+using StorageApi.Models.APIO.Authorization;
+using StorageApi.Services;
 using System.Threading.Tasks;
 
 namespace StorageApi.Controllers
@@ -15,31 +13,18 @@ namespace StorageApi.Controllers
     [Route("[controller]/[action]")]
     public class AuthController : ControllerBase
     {
-        private AuthConfiguration _authConfiguration;
-        private readonly AuthorizationContext _context;
-
-        private const string rootLogin = "root";
-
-        public AuthController(AuthConfiguration authConfiguration, AuthorizationContext context)
+        private AuthService _authService;
+        public AuthController(AuthService authService)
         {
-            _authConfiguration = authConfiguration;
-            _context = context;
+            _authService = authService;
         }
 
         [HttpPost]
         [ProducesResponseType(typeof(AuthResult), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Token(AuthData postUser)
+        public async Task<IActionResult> Token(AuthData authData)
         {
-            if (postUser.Login == rootLogin && postUser.Password == _authConfiguration.RootPassword)
-            {
-                return new JsonResult(new AuthResult { Token = AuthHelper.GetNewToken(_authConfiguration, rootLogin, Roles.Admin) });
-            }
-
-            if (await _context.Users.AnyAsync(u => u.Login == postUser.Login && u.PasswordHash == AuthHelper.HashString(postUser.Password)))
-            {
-                return new JsonResult(new AuthResult { Token = AuthHelper.GetNewToken(_authConfiguration, postUser.Login) });
-            }
-
+            (bool pass, string role) = await _authService.TryLogInAsync(authData.Login, authData.Password);
+            if (pass) return new JsonResult(new AuthResult { Token = _authService.GetNewToken(authData.Login, role) });
             return new UnauthorizedResult();
         }
 
@@ -48,22 +33,18 @@ namespace StorageApi.Controllers
         [ProducesResponseType(typeof(SuccessResult), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ExceptionResult), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ExceptionResult), StatusCodes.Status409Conflict)]
-        public async Task<IActionResult> CreateUser(AuthData postUser)
+        public async Task<IActionResult> CreateUser(AuthData authData)
         {
-            if (await _context.Users.AnyAsync(u => u.Login == postUser.Login))
+            DBCreateResult result = await _authService.TryCreateUserAsync(authData.Login, authData.Password);
+            switch (result)
             {
-                return new JsonResult(new ExceptionResult("User already exist")) { StatusCode = StatusCodes.Status409Conflict };
+                case DBCreateResult.Success:
+                    return new JsonResult(new SuccessResult("User added"));
+                case DBCreateResult.AlreadyExist:
+                    return new JsonResult(new ExceptionResult("User already exist")) { StatusCode = StatusCodes.Status409Conflict };
+                default:
+                    return new JsonResult(new ExceptionResult("Unknown error")) { StatusCode = StatusCodes.Status400BadRequest };
             }
-            await _context.Users.AddAsync(new User()
-            {
-                Login = postUser.Login,
-                PasswordHash = AuthHelper.HashString(postUser.Password)
-            });
-            if (await _context.SaveChangesAsync() == 1)
-            {
-                return new JsonResult(new SuccessResult("User added"));
-            }
-            return new JsonResult(new ExceptionResult("Unknown error")) { StatusCode = StatusCodes.Status400BadRequest };
         }
     }
 }
