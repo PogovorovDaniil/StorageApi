@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using StorageApi.Helper;
+using StorageApi.Helpers;
 using StorageApi.Models;
 using System;
 using System.Collections.Generic;

@@ -8,7 +8,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace StorageApi.Helper
+namespace StorageApi.Helpers
 {
     public static class AuthHelper
     {

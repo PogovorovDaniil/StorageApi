@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using StorageApi.Helper;
+using StorageApi.Helpers;
 using StorageApi.Models;
 using StorageApi.Models.APIO;
-using StorageApi.Models.Context;
+using StorageApi.Models.Contexts;
 using StorageApi.Models.DBO.Authorization;
 using System.Threading.Tasks;
 

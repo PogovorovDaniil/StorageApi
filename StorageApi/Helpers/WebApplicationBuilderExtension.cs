@@ -5,10 +5,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using StorageApi.Models.Context;
+using StorageApi.Models.Contexts;
 using System.Text;
 
-namespace StorageApi.Helper
+namespace StorageApi.Helpers
 {
     public static class WebApplicationBuilderExtension
     {

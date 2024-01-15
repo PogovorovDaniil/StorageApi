@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
-using StorageApi.Helper;
+using StorageApi.Helpers;
 using StorageApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
