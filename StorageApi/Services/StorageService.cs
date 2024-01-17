@@ -20,7 +20,7 @@ namespace StorageApi.Services
         #region Store
         public async Task<(DBCreateResult result, Store store)> CreateStore(PostStore store)
         {
-            if (await _context.Stores.AnyAsync(u => u.Name == store.Name))
+            if (await _context.Stores.AnyAsync(u => u.Name.ToLower().Trim() == store.Name.ToLower().Trim()))
             {
                 return (DBCreateResult.AlreadyExist, null);
             }
@@ -54,6 +54,46 @@ WHERE LOWER(Name) LIKE LOWER({0})", $"%{name}%").ToArrayAsync();
         public async Task<IEnumerable<Store>> GetStores()
         {
             return await _context.Stores.ToArrayAsync();
+        }
+        #endregion
+
+        #region Brand
+        public async Task<(DBCreateResult result, Brand store)> CreateBrand(PostBrand brand)
+        {
+            if (await _context.Brands.AnyAsync(u => u.Name.ToLower().Trim() == brand.Name.ToLower().Trim()))
+            {
+                return (DBCreateResult.AlreadyExist, null);
+            }
+            await _context.Brands.AddAsync(new Brand()
+            {
+                Name = brand.Name
+            });
+            if (await _context.SaveChangesAsync() == 1)
+            {
+                Brand dbBrand = await _context.Brands.FirstAsync(s => s.Name == brand.Name);
+                return (DBCreateResult.Success, dbBrand);
+            }
+            return (DBCreateResult.UnknownError, null);
+        }
+
+        public async Task<IEnumerable<Brand>> GetBrand(int id)
+        {
+            Brand brand = await _context.Brands.FirstOrDefaultAsync(x => x.Id == id);
+            if (brand is null) return Array.Empty<Brand>();
+            return new[] { brand };
+        }
+
+        public async Task<IEnumerable<Brand>> GetBrand(string name)
+        {
+            return await _context.Brands.FromSqlRaw(
+@"SELECT Id, Name
+FROM `Brands`
+WHERE LOWER(Name) LIKE LOWER({0})", $"%{name}%").ToArrayAsync();
+        }
+
+        public async Task<IEnumerable<Brand>> GetBrands()
+        {
+            return await _context.Brands.ToArrayAsync();
         }
         #endregion
     }

@@ -36,5 +36,21 @@ namespace StorageApi.Controllers
                 stores = await _storageService.GetStores();
             return new JsonResult(stores);
         }
+
+        [ActionLogger]
+        [ProducesResponseType(typeof(IEnumerable<Brand>), StatusCodes.Status200OK)]
+        [HttpGet("Brand")]
+        [HttpGet("Brand/{id}")]
+        public async Task<IActionResult> GetBrand(int? id, [AllowNull] string name)
+        {
+            IEnumerable<Brand> brands;
+            if (id.HasValue)
+                brands = await _storageService.GetBrand(id.Value);
+            else if (name is not null)
+                brands = await _storageService.GetBrand(name);
+            else
+                brands = await _storageService.GetBrands();
+            return new JsonResult(brands);
+        }
     }
 }
