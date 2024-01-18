@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StorageApi.Core.Helpers;
 using StorageApi.Database.Models.Storage;
-using StorageApi.Services;
+using StorageApi.Storage.Services;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
-namespace StorageApi.Controllers
+namespace StorageApi.Storage.Controllers
 {
     [Authorize]
     [ApiController]

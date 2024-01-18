@@ -5,15 +5,15 @@ using Serilog;
 using StorageApi.Authorization;
 using StorageApi.Core.Helpers;
 using StorageApi.Database;
-using StorageApi.Services;
+using StorageApi.Storage;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddTransient<StorageService>(); // TODO
 builder.AddAuthServices();
+builder.AddStorageServices();
 builder.AddDbContexts();
 builder.ConfigureSwagger();
 builder.ConfigureAuthorization();

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-namespace StorageApi.Models.Storage
+namespace StorageApi.Storage.Models
 {
     public class PostProduct
     {

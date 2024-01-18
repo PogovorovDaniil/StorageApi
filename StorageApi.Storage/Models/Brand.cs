@@ -1,4 +1,4 @@
-﻿namespace StorageApi.Models.Storage
+﻿namespace StorageApi.Storage.Models
 {
     public class PostBrand
     {

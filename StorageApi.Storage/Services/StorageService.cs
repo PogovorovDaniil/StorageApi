@@ -2,12 +2,12 @@
 using StorageApi.Core.Models.Constants;
 using StorageApi.Database.Contexts;
 using StorageApi.Database.Models.Storage;
-using StorageApi.Models.Storage;
+using StorageApi.Storage.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace StorageApi.Services
+namespace StorageApi.Storage.Services
 {
     public class StorageService
     {

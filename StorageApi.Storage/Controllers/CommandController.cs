@@ -5,11 +5,11 @@ using StorageApi.Core.Helpers;
 using StorageApi.Core.Models.Constants;
 using StorageApi.Core.Models.TemplateResult;
 using StorageApi.Database.Models.Storage;
-using StorageApi.Models.Storage;
-using StorageApi.Services;
+using StorageApi.Storage.Models;
+using StorageApi.Storage.Services;
 using System.Threading.Tasks;
 
-namespace StorageApi.Controllers
+namespace StorageApi.Storage.Controllers
 {
     [Authorize]
     [ApiController]
