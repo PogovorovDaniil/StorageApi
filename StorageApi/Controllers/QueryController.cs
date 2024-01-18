@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using StorageApi.Database.Models.Storage;
 using StorageApi.Helpers;
-using StorageApi.Models.DBO.Storage;
 using StorageApi.Services;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;

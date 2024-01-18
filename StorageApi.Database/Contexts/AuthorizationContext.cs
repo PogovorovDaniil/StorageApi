@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using StorageApi.Models.DBO.Authorization;
+using StorageApi.Database.Models.Authorization;
 
-namespace StorageApi.Models.Contexts
+namespace StorageApi.Database.Contexts
 {
     public class AuthorizationContext : DbContext
     {

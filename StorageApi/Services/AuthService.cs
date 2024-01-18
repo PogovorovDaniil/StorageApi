@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using StorageApi.Models;
-using StorageApi.Models.Contexts;
-using StorageApi.Models.DBO.Authorization;
+using StorageApi.Database.Contexts;
+using StorageApi.Database.Models.Authorization;
+using StorageApi.Models.Constants;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;

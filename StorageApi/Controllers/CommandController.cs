@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using StorageApi.Database.Models.Storage;
 using StorageApi.Helpers;
-using StorageApi.Models;
-using StorageApi.Models.APIO;
-using StorageApi.Models.APIO.Storage;
-using StorageApi.Models.DBO.Storage;
+using StorageApi.Models.Constants;
+using StorageApi.Models.Storage;
+using StorageApi.Models.TemplateResult;
 using StorageApi.Services;
 using System.Threading.Tasks;
 

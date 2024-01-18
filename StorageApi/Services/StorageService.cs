@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using StorageApi.Models;
-using StorageApi.Models.APIO.Storage;
-using StorageApi.Models.Contexts;
-using StorageApi.Models.DBO.Storage;
+using StorageApi.Database.Contexts;
+using StorageApi.Database.Models.Storage;
+using StorageApi.Models.Constants;
+using StorageApi.Models.Storage;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

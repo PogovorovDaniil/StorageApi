@@ -1,4 +1,4 @@
-﻿namespace StorageApi.Models.APIO
+﻿namespace StorageApi.Models.TemplateResult
 {
     public class SuccessResult
     {

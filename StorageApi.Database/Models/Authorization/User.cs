@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace StorageApi.Models.DBO.Authorization
+namespace StorageApi.Database.Models.Authorization
 {
     public class User
     {

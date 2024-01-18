@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StorageApi", "StorageApi\StorageApi.csproj", "{476BD29C-781B-486E-B096-E28B1CED00F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StorageApi", "StorageApi\StorageApi.csproj", "{476BD29C-781B-486E-B096-E28B1CED00F2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StorageApi.Database", "StorageApi.Database\StorageApi.Database.csproj", "{017D5777-7F71-4EC7-9E94-AAB07F72DCE0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StorageApi.Core", "StorageApi.Core\StorageApi.Core.csproj", "{02D108C1-6459-4B23-AA8A-443DBAC79C48}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{476BD29C-781B-486E-B096-E28B1CED00F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{476BD29C-781B-486E-B096-E28B1CED00F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{476BD29C-781B-486E-B096-E28B1CED00F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{017D5777-7F71-4EC7-9E94-AAB07F72DCE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{017D5777-7F71-4EC7-9E94-AAB07F72DCE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{017D5777-7F71-4EC7-9E94-AAB07F72DCE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{017D5777-7F71-4EC7-9E94-AAB07F72DCE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02D108C1-6459-4B23-AA8A-443DBAC79C48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02D108C1-6459-4B23-AA8A-443DBAC79C48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02D108C1-6459-4B23-AA8A-443DBAC79C48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02D108C1-6459-4B23-AA8A-443DBAC79C48}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

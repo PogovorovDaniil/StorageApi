@@ -5,8 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using StorageApi.Models;
-using StorageApi.Models.Contexts;
+using StorageApi.Database.Contexts;
+using StorageApi.Models.Constants;
 using StorageApi.Services;
 using System.Text;
 

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace StorageApi.Models.DBO.Storage
+namespace StorageApi.Database.Models.Storage
 {
     public class Brand
     {

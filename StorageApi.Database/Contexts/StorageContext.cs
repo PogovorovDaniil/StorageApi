@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using StorageApi.Models.DBO.Storage;
+using StorageApi.Database.Models.Storage;
 
-namespace StorageApi.Models.Contexts
+namespace StorageApi.Database.Contexts
 {
     public class StorageContext : DbContext
     {

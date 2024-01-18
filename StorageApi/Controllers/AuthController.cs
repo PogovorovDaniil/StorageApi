@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using StorageApi.Models;
-using StorageApi.Models.APIO;
-using StorageApi.Models.APIO.Authorization;
+using StorageApi.Models.Authorization;
+using StorageApi.Models.Constants;
+using StorageApi.Models.TemplateResult;
 using StorageApi.Services;
 using System.Threading.Tasks;
 

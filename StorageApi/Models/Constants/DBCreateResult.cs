@@ -1,4 +1,4 @@
-﻿namespace StorageApi.Models
+﻿namespace StorageApi.Models.Constants
 {
     public enum DBCreateResult
     {
