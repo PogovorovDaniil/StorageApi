@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\StorageApi.Authorization\StorageApi.Authorization.csproj" />
-    <ProjectReference Include="..\StorageApi.Core\StorageApi.Core.csproj" />
     <ProjectReference Include="..\StorageApi.Database\StorageApi.Database.csproj" />
     <ProjectReference Include="..\StorageApi.Storage\StorageApi.Storage.csproj" />
   </ItemGroup>
