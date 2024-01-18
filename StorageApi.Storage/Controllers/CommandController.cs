@@ -65,7 +65,7 @@ namespace StorageApi.Storage.Controllers
         [ProducesResponseType(typeof(GetProduct), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ExceptionResult), StatusCodes.Status409Conflict)]
         [ProducesResponseType(typeof(ExceptionResult), StatusCodes.Status400BadRequest)]
-        [HttpPost("Brand")]
+        [HttpPost("Product")]
         public async Task<IActionResult> PostProduct(PostProduct product)
         {
             (DBCreateResult result, Product dbProduct) = await _storageService.CreateProduct(product);
@@ -78,7 +78,7 @@ namespace StorageApi.Storage.Controllers
                         Name = dbProduct.Name,
                         BrandId = dbProduct.Brand.Id,
                         BrandName = dbProduct.Brand.Name,
-                        Offers = dbProduct.Offers.Select(dbOffer => new GetProduct.Offer
+                        Offers = dbProduct.Offers.Select(dbOffer => new GetProduct.GetOffer
                         {
                             Id = dbOffer.Id,
                             Price = dbOffer.Price,

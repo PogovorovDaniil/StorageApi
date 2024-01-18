@@ -7,8 +7,8 @@ namespace StorageApi.Storage.Models
     {
         public string Name { get; set; }
         public long BrandId { get; set; }
-        public IEnumerable<Offer> Offers { get; set; }
-        public class Offer
+        public IEnumerable<PostOffer> Offers { get; set; }
+        public class PostOffer
         {
             [AllowNull]
             public string Color { get; set; }
@@ -23,8 +23,8 @@ namespace StorageApi.Storage.Models
         public string Name { get; set; }
         public long BrandId { get; set; }
         public string BrandName { get; set; }
-        public IEnumerable<Offer> Offers { get; set; }
-        public class Offer
+        public IEnumerable<GetOffer> Offers { get; set; }
+        public class GetOffer
         {
             public long Id { get; set; }
             [AllowNull]
