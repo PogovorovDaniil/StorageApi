@@ -4,7 +4,7 @@ using Serilog;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace StorageApi.Helpers
+namespace StorageApi.Core.Helpers
 {
     public class ActionLoggerAttribute : ActionFilterAttribute
     {

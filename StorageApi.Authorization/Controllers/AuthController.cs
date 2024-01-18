@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using StorageApi.Models.Authorization;
-using StorageApi.Models.Constants;
-using StorageApi.Models.TemplateResult;
-using StorageApi.Services;
+using StorageApi.Authorization.Models;
+using StorageApi.Authorization.Services;
+using StorageApi.Core.Models.Constants;
+using StorageApi.Core.Models.TemplateResult;
 using System.Threading.Tasks;
 
-namespace StorageApi.Controllers
+namespace StorageApi.Authorization.Controllers
 {
     [ApiController]
     [Route("[controller]/[action]")]

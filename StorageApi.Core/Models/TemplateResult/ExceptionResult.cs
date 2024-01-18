@@ -1,4 +1,4 @@
-﻿namespace StorageApi.Models.TemplateResult
+﻿namespace StorageApi.Core.Models.TemplateResult
 {
     public class ExceptionResult
     {

@@ -1,4 +1,4 @@
-﻿namespace StorageApi.Models.Authorization
+﻿namespace StorageApi.Authorization.Models
 {
     public class AuthData
     {

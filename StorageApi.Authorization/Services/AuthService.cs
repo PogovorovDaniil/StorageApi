@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using StorageApi.Authorization.Models;
+using StorageApi.Core.Models.Constants;
 using StorageApi.Database.Contexts;
 using StorageApi.Database.Models.Authorization;
-using StorageApi.Models.Constants;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -12,7 +13,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StorageApi.Services
+namespace StorageApi.Authorization.Services
 {
     public class AuthService
     {

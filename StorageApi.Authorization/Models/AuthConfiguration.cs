@@ -2,7 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace StorageApi.Models.Constants
+namespace StorageApi.Authorization.Models
 {
     public class AuthConfiguration
     {

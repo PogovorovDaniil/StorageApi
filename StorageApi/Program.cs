@@ -2,14 +2,18 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
-using StorageApi.Helpers;
+using StorageApi.Authorization;
+using StorageApi.Core.Helpers;
+using StorageApi.Database;
+using StorageApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
-builder.AddProjectServices();
+builder.Services.AddTransient<StorageService>(); // TODO
+builder.AddAuthServices();
 builder.AddDbContexts();
 builder.ConfigureSwagger();
 builder.ConfigureAuthorization();

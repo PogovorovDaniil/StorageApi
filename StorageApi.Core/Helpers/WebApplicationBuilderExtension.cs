@@ -1,35 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using StorageApi.Database.Contexts;
-using StorageApi.Models.Constants;
-using StorageApi.Services;
 using System.Text;
 
-namespace StorageApi.Helpers
+namespace StorageApi.Core.Helpers
 {
     public static class WebApplicationBuilderExtension
     {
-        public static void AddProjectServices(this WebApplicationBuilder builder)
-        {
-            builder.Services.AddSingleton<AuthConfiguration>();
-            builder.Services.AddTransient<AuthService>();
-            builder.Services.AddTransient<StorageService>();
-        }
-
-        public static void AddDbContexts(this WebApplicationBuilder builder)
-        {
-            builder.Services.AddDbContext<AuthorizationContext>(
-                optionAction => optionAction.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
-                MariaDbServerVersion.LatestSupportedServerVersion));
-            builder.Services.AddDbContext<StorageContext>(
-                optionAction => optionAction.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
-                MariaDbServerVersion.LatestSupportedServerVersion));
-        }
 
         public static void ConfigureAuthorization(this WebApplicationBuilder builder) => builder.Services
             .AddAuthorization()
