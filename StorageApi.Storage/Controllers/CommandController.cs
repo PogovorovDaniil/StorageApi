@@ -7,6 +7,7 @@ using StorageApi.Core.Models.TemplateResult;
 using StorageApi.Database.Models.Storage;
 using StorageApi.Storage.Models;
 using StorageApi.Storage.Services;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace StorageApi.Storage.Controllers
@@ -55,6 +56,38 @@ namespace StorageApi.Storage.Controllers
                     return new JsonResult(new GetBrand() { Id = dbBrand.Id, Name = dbBrand.Name });
                 case DBCreateResult.AlreadyExist:
                     return new JsonResult(new ExceptionResult("Brand already exist")) { StatusCode = StatusCodes.Status409Conflict };
+                default:
+                    return new JsonResult(new ExceptionResult("Unknown error")) { StatusCode = StatusCodes.Status400BadRequest };
+            }
+        }
+
+        [ActionLogger]
+        [ProducesResponseType(typeof(GetProduct), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ExceptionResult), StatusCodes.Status409Conflict)]
+        [ProducesResponseType(typeof(ExceptionResult), StatusCodes.Status400BadRequest)]
+        [HttpPost("Brand")]
+        public async Task<IActionResult> PostProduct(PostProduct product)
+        {
+            (DBCreateResult result, Product dbProduct) = await _storageService.CreateProduct(product);
+            switch (result)
+            {
+                case DBCreateResult.Success:
+                    return new JsonResult(new GetProduct()
+                    {
+                        Id = dbProduct.Id, 
+                        Name = dbProduct.Name,
+                        BrandId = dbProduct.Brand.Id,
+                        BrandName = dbProduct.Brand.Name,
+                        Offers = dbProduct.Offers.Select(dbOffer => new GetProduct.Offer
+                        {
+                            Id = dbOffer.Id,
+                            Price = dbOffer.Price,
+                            Color = dbOffer.Color,
+                            Size = dbOffer.Size
+                        }).ToList()
+                    });
+                case DBCreateResult.AlreadyExist:
+                    return new JsonResult(new ExceptionResult("Product already exist")) { StatusCode = StatusCodes.Status409Conflict };
                 default:
                     return new JsonResult(new ExceptionResult("Unknown error")) { StatusCode = StatusCodes.Status400BadRequest };
             }

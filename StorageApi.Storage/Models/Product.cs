@@ -22,7 +22,7 @@ namespace StorageApi.Storage.Models
         public long Id { get; set; }
         public string Name { get; set; }
         public long BrandId { get; set; }
-        public long BrandName { get; set; }
+        public string BrandName { get; set; }
         public IEnumerable<Offer> Offers { get; set; }
         public class Offer
         {

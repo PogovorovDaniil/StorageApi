@@ -12,11 +12,11 @@ namespace StorageApi.Database
         {
             builder.Services.AddDbContext<AuthorizationContext>(
                 optionAction => optionAction.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
-                MariaDbServerVersion.LatestSupportedServerVersion));
+                MariaDbServerVersion.LatestSupportedServerVersion, b => b.MigrationsAssembly("StorageApi")));
 
             builder.Services.AddDbContext<StorageContext>(
                 optionAction => optionAction.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
-                MariaDbServerVersion.LatestSupportedServerVersion));
+                MariaDbServerVersion.LatestSupportedServerVersion, b => b.MigrationsAssembly("StorageApi")));
         }
     }
 }

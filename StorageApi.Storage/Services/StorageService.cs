@@ -96,5 +96,12 @@ WHERE LOWER(Name) LIKE LOWER({0})", $"%{name}%").ToArrayAsync();
             return await _context.Brands.ToArrayAsync();
         }
         #endregion
+
+        #region Product
+        public Task<(DBCreateResult result, Product dbProduct)> CreateProduct(PostProduct product)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
     }
 }
