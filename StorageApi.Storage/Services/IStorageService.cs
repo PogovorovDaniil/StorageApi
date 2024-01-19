@@ -1,6 +1,6 @@
 ﻿using StorageApi.Core.Models.Constants;
 using StorageApi.Database.Models.Storage;
-using StorageApi.Storage.Models;
+using StorageApi.Storage.Requests.Commands;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,7 +10,7 @@ namespace StorageApi.Storage.Services
     {
 
         #region Store
-        public Task<(DBCreateResult result, Store store)> CreateStore(PostStore store);
+        public Task<(DBCreateResult result, Store store)> CreateStore(PostStoreCommand store);
 
         public Task<IEnumerable<Store>> GetStore(long id);
 
@@ -20,7 +20,7 @@ namespace StorageApi.Storage.Services
         #endregion
 
         #region Brand
-        public Task<(DBCreateResult result, Brand store)> CreateBrand(PostBrand brand);
+        public Task<(DBCreateResult result, Brand store)> CreateBrand(PostBrandCommand brand);
 
         public Task<IEnumerable<Brand>> GetBrand(long id);
 
@@ -30,7 +30,7 @@ namespace StorageApi.Storage.Services
         #endregion
 
         #region Product
-        public Task<(DBCreateResult result, Product dbProduct)> CreateProduct(PostProduct product);
+        public Task<(DBCreateResult result, Product dbProduct)> CreateProduct(PostProductCommand product);
 
         public Task<IEnumerable<Product>> GetProduct(long id);
 

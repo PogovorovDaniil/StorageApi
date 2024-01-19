@@ -2,7 +2,7 @@
 using StorageApi.Core.Models.Constants;
 using StorageApi.Database.Contexts;
 using StorageApi.Database.Models.Storage;
-using StorageApi.Storage.Models;
+using StorageApi.Storage.Requests.Commands;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -18,7 +18,7 @@ namespace StorageApi.Storage.Services
             _context = context;
         }
         #region Store
-        public async Task<(DBCreateResult result, Store store)> CreateStore(PostStore store)
+        public async Task<(DBCreateResult result, Store store)> CreateStore(PostStoreCommand store)
         {
             if (await _context.Stores.AnyAsync(u => u.Name.ToLower().Trim() == store.Name.ToLower().Trim()))
             {
@@ -58,7 +58,7 @@ WHERE LOWER(Name) LIKE LOWER({0})", $"%{name}%").ToArrayAsync();
         #endregion
 
         #region Brand
-        public async Task<(DBCreateResult result, Brand store)> CreateBrand(PostBrand brand)
+        public async Task<(DBCreateResult result, Brand store)> CreateBrand(PostBrandCommand brand)
         {
             if (await _context.Brands.AnyAsync(u => u.Name.ToLower().Trim() == brand.Name.ToLower().Trim()))
             {
@@ -98,7 +98,7 @@ WHERE LOWER(Name) LIKE LOWER({0})", $"%{name}%").ToArrayAsync();
         #endregion
 
         #region Product
-        public async Task<(DBCreateResult result, Product dbProduct)> CreateProduct(PostProduct product)
+        public async Task<(DBCreateResult result, Product dbProduct)> CreateProduct(PostProductCommand product)
         {
             if (await _context.Products.AnyAsync(u => u.Name.ToLower().Trim() == product.Name.ToLower().Trim()))
             {

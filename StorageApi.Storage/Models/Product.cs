@@ -3,21 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace StorageApi.Storage.Models
 {
-    public class PostProduct
-    {
-        public string Name { get; set; }
-        public long BrandId { get; set; }
-        public IEnumerable<PostProductOffer> Offers { get; set; }
-        public class PostProductOffer
-        {
-            [AllowNull]
-            public string Color { get; set; }
-            [AllowNull]
-            public string Size { get; set; }
-            public decimal Price { get; set; }
-        }
-    }
-    public class GetProduct
+    public class Product
     {
         public long Id { get; set; }
         public string Name { get; set; }
