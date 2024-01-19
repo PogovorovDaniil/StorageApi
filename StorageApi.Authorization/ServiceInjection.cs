@@ -10,7 +10,7 @@ namespace StorageApi.Authorization
         public static void AddAuthServices(this WebApplicationBuilder builder)
         {
             builder.Services.AddSingleton<AuthConfiguration>();
-            builder.Services.AddTransient<AuthService>();
+            builder.Services.AddTransient<IAuthService, AuthService>();
         }
     }
 }

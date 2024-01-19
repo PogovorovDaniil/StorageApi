@@ -17,8 +17,8 @@ namespace StorageApi.Storage.Controllers
     [Route("[controller]")]
     public class QueryController : ControllerBase
     {
-        private StorageService _storageService;
-        public QueryController(StorageService storageService)
+        private IStorageService _storageService;
+        public QueryController(IStorageService storageService)
         {
             _storageService = storageService;
         }
@@ -89,7 +89,7 @@ namespace StorageApi.Storage.Controllers
                 Name = p.Name,
                 BrandId = p.Brand.Id,
                 BrandName = p.Brand.Name,
-                Offers = p.Offers.Select(o => new GetProduct.GetOffer 
+                Offers = p.Offers.Select(o => new GetProduct.GetProductOffer 
                 {
                     Id = o.Id,
                     Price = o.Price,

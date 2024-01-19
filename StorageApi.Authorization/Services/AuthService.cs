@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace StorageApi.Authorization.Services
 {
-    public class AuthService
+    public class AuthService : IAuthService
     {
         private readonly AuthConfiguration _authConfiguration;
         private readonly AuthorizationContext _context;

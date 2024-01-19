@@ -8,7 +8,7 @@ namespace StorageApi.Storage
     {
         public static void AddStorageServices(this WebApplicationBuilder builder)
         {
-            builder.Services.AddTransient<StorageService>();
+            builder.Services.AddTransient<IStorageService, StorageService>();
         }
     }
 }

@@ -13,8 +13,8 @@ namespace StorageApi.Authorization.Controllers
     [Route("[controller]/[action]")]
     public class AuthController : ControllerBase
     {
-        private AuthService _authService;
-        public AuthController(AuthService authService)
+        private IAuthService _authService;
+        public AuthController(IAuthService authService)
         {
             _authService = authService;
         }

@@ -17,8 +17,8 @@ namespace StorageApi.Storage.Controllers
     [Route("[controller]")]
     public class CommandController : ControllerBase
     {
-        private StorageService _storageService;
-        public CommandController(StorageService storageService)
+        private IStorageService _storageService;
+        public CommandController(IStorageService storageService)
         {
             _storageService = storageService;
         }
@@ -78,7 +78,7 @@ namespace StorageApi.Storage.Controllers
                         Name = dbProduct.Name,
                         BrandId = dbProduct.Brand.Id,
                         BrandName = dbProduct.Brand.Name,
-                        Offers = dbProduct.Offers.Select(dbOffer => new GetProduct.GetOffer
+                        Offers = dbProduct.Offers.Select(dbOffer => new GetProduct.GetProductOffer
                         {
                             Id = dbOffer.Id,
                             Price = dbOffer.Price,

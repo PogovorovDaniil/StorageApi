@@ -5,12 +5,11 @@ using StorageApi.Database.Models.Storage;
 using StorageApi.Storage.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace StorageApi.Storage.Services
 {
-    public class StorageService
+    public class StorageService : IStorageService
     {
         private readonly StorageContext _context;
 
