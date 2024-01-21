@@ -55,7 +55,7 @@ namespace StorageApi.Storage.Controllers
 
         [ActionLogger]
         [ProducesResponseType(typeof(SuccessResult), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ExceptionResult), StatusCodes.Status400Conflict)]
+        [ProducesResponseType(typeof(ExceptionResult), StatusCodes.Status400BadRequest)]
         [HttpDelete("Product")]
         public Task<IActionResult> DeleteProduct([Required] long id)
         {
