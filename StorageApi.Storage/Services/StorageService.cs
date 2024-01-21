@@ -157,6 +157,16 @@ WHERE LOWER(Name) LIKE LOWER({0})", $"%{name}%")
                 .Include(p => p.Offers)
                 .ToArrayAsync();
         }
+
+        public async Task<DBDeleteResult> DeleteProduct(long id)
+        {
+            Product product = await _context.Products.FirstOrDefaultAsync(x => x.Id == id);
+            if (product is null) return DBDeleteResult.UnknownError;
+            _context.Remove(product);
+            if(await _context.SaveChangesAsync() == 0) return DBDeleteResult.UnknownError;
+            return DBDeleteResult.Success;
+        }
+
         #endregion
     }
 }

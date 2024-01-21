@@ -48,9 +48,21 @@ namespace StorageApi.Storage.Controllers
         [ProducesResponseType(typeof(ExceptionResult), StatusCodes.Status409Conflict)]
         [ProducesResponseType(typeof(ExceptionResult), StatusCodes.Status400BadRequest)]
         [HttpPost("Product")]
-        public Task<IActionResult> PostProduct(PostProductCommand store)
+        public Task<IActionResult> PostProduct([FromBody] PostProductCommand store)
         {
             return mediator.Execute(store);
+        }
+
+        [ActionLogger]
+        [ProducesResponseType(typeof(SuccessResult), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ExceptionResult), StatusCodes.Status400Conflict)]
+        [HttpDelete("Product")]
+        public Task<IActionResult> DeleteProduct([Required] long id)
+        {
+            return mediator.Execute(new DeleteProductQuery
+            {
+                Id = id
+            });
         }
     }
 }
