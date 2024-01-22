@@ -48,9 +48,9 @@ namespace StorageApi.Storage.Controllers
         [ProducesResponseType(typeof(ExceptionResult), StatusCodes.Status409Conflict)]
         [ProducesResponseType(typeof(ExceptionResult), StatusCodes.Status400BadRequest)]
         [HttpPost("Product")]
-        public Task<IActionResult> PostProduct([FromBody] PostProductCommand store)
+        public Task<IActionResult> PostProduct([FromBody] PostProductCommand product)
         {
-            return mediator.Execute(store);
+            return mediator.Execute(product);
         }
 
         [ActionLogger]

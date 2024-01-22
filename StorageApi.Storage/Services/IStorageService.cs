@@ -38,6 +38,8 @@ namespace StorageApi.Storage.Services
 
         public Task<IEnumerable<Product>> GetProducts();
         Task<DBDeleteResult> DeleteProduct(long id);
+        Task<(DBCreateResult dbResult, Offer dbOffer)> CreateOffer(PostOfferCommand request);
+        Task<DBDeleteResult> DeleteOffer(long id);
         #endregion
     }
 }

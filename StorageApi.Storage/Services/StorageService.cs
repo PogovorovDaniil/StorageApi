@@ -167,6 +167,36 @@ WHERE LOWER(Name) LIKE LOWER({0})", $"%{name}%")
             return DBDeleteResult.Success;
         }
 
+        public async Task<(DBCreateResult dbResult, Offer dbOffer)> CreateOffer(PostOfferCommand offer)
+        {
+            if (await _context.Offers.AnyAsync(o => o.Size == offer.Size && o.Color == offer.Color))
+            {
+                return (DBCreateResult.AlreadyExist, null);
+            }
+            Product dbProduct = await _context.Products.FirstOrDefaultAsync(p => p.Id == offer.ProductId);
+            if(dbProduct is null) return (DBCreateResult.UnknownError, null);
+            Offer dbOffer = new Offer
+            {
+                Product = dbProduct,
+                Color = offer.Color,
+                Size = offer.Size,
+                Price = offer.Price,
+            };
+
+            await _context.Offers.AddAsync(dbOffer);
+            if (await _context.SaveChangesAsync() == 0) return (DBCreateResult.UnknownError, null);
+
+            return (DBCreateResult.Success, dbOffer);
+        }
+
+        public async Task<DBDeleteResult> DeleteOffer(long id)
+        {
+            Offer offer = await _context.Offers.FirstOrDefaultAsync(x => x.Id == id);
+            if (offer is null) return DBDeleteResult.UnknownError;
+            _context.Remove(offer);
+            if (await _context.SaveChangesAsync() == 0) return DBDeleteResult.UnknownError;
+            return DBDeleteResult.Success;
+        }
         #endregion
     }
 }
