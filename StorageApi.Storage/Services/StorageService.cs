@@ -5,6 +5,7 @@ using StorageApi.Database.Models.Storage;
 using StorageApi.Storage.Requests.Commands;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace StorageApi.Storage.Services
@@ -196,6 +197,25 @@ WHERE LOWER(Name) LIKE LOWER({0})", $"%{name}%")
             _context.Remove(offer);
             if (await _context.SaveChangesAsync() == 0) return DBDeleteResult.UnknownError;
             return DBDeleteResult.Success;
+        }
+
+        public async Task<DBChangeResult> PutOfferStock(PutOfferStockCommand request)
+        {
+            foreach (var stock in request.StoreStocks)
+            {
+                if (await _context.Database.ExecuteSqlRawAsync(
+@"INSERT INTO OfferStocks (OfferId, StoreId, Quantity)
+VALUES ({0}, {1}, {2})
+ON DUPLICATE KEY UPDATE Quantity = VALUES(Quantity);
+", request.OfferId, stock.StoreId, stock.Quantity) == 0) return DBChangeResult.UnknownError;
+            }
+            await _context.SaveChangesAsync();
+            return DBChangeResult.Success;
+        }
+
+        public async Task<OfferStock[]> GetOfferStocks(long offerId)
+        {
+            return await _context.OfferStocks.Include(o => o.Offer).Include(o => o.Store).Where(o => o.Offer.Id == offerId).ToArrayAsync();
         }
         #endregion
     }

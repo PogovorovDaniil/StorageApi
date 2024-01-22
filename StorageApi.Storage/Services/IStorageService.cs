@@ -40,6 +40,8 @@ namespace StorageApi.Storage.Services
         Task<DBDeleteResult> DeleteProduct(long id);
         Task<(DBCreateResult dbResult, Offer dbOffer)> CreateOffer(PostOfferCommand request);
         Task<DBDeleteResult> DeleteOffer(long id);
+        Task<DBChangeResult> PutOfferStock(PutOfferStockCommand request);
+        Task<OfferStock[]> GetOfferStocks(long offerId);
         #endregion
     }
 }

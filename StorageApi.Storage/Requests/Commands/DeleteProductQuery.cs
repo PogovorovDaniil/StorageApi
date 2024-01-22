@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace StorageApi.Storage.Requests.Commands
 {
-    public class DeleteProductQuery : IRequest<CommandResult<object>>, ICommand
+    public class DeleteProductQuery : IRequest<CommandResult<SuccessResult>>, ICommand
     {
         public long Id { get; set; }
 
-        public class DeleteProductQueryHandler : IRequestHandler<DeleteProductQuery, CommandResult<object>>
+        public class DeleteProductQueryHandler : IRequestHandler<DeleteProductQuery, CommandResult<SuccessResult>>
         {
             private readonly IStorageService storageService;
             public DeleteProductQueryHandler(IStorageService storageService)
@@ -22,12 +22,12 @@ namespace StorageApi.Storage.Requests.Commands
                 this.storageService = storageService;
             }
 
-            public async Task<CommandResult<object>> Handle(DeleteProductQuery request, CancellationToken cancellationToken)
+            public async Task<CommandResult<SuccessResult>> Handle(DeleteProductQuery request, CancellationToken cancellationToken)
             {
                 var result = await storageService.DeleteProduct(request.Id) == DBDeleteResult.Success;
-                return new CommandResult<object>
+                return new CommandResult<SuccessResult>
                 {
-                    Result = result ? new SuccessResult("Success") : new ExceptionResult("Error when deleting"),
+                    Result = new SuccessResult("Success"),
                     Success = result,
                     ErrorMessage = "Delete failed",
                     StatusCode = result ? StatusCodes.Status200OK : StatusCodes.Status400BadRequest
