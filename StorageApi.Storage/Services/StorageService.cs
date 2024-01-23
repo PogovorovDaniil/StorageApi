@@ -167,7 +167,9 @@ WHERE LOWER(Name) LIKE LOWER({0})", $"%{name}%")
             if(await _context.SaveChangesAsync() == 0) return DBDeleteResult.UnknownError;
             return DBDeleteResult.Success;
         }
+        #endregion
 
+        #region Offer
         public async Task<(DBCreateResult dbResult, Offer dbOffer)> CreateOffer(PostOfferCommand offer)
         {
             if (await _context.Offers.AnyAsync(o => o.Size == offer.Size && o.Color == offer.Color))
