@@ -13,20 +13,16 @@ using System.Threading.Tasks;
 namespace StorageApi.Storage.Controllers
 {
     [Authorize]
-    public class BrandController : ControllerBase
+    public class BrandController : CommandQueryController
     {
-        private readonly IMediator mediator;
-        public BrandController(IMediator mediator)
-        {
-            this.mediator = mediator;
-        }
+        public BrandController(IMediator mediator) : base(mediator) { }
 
         [ActionLogger]
         [ProducesResponseType(typeof(IEnumerable<Models.Brand>), StatusCodes.Status200OK)]
         [HttpGet("Brand")]
         public Task<IActionResult> GetBrand([Required] long id)
         {
-            return mediator.Query(new GetBrandQuery
+            return Query(new GetBrandQuery
             {
                 Id = id
             });
@@ -37,7 +33,7 @@ namespace StorageApi.Storage.Controllers
         [HttpGet("BrandByName")]
         public Task<IActionResult> BrandByName(string name)
         {
-            return mediator.Query(new GetBrandQuery
+            return Query(new GetBrandQuery
             {
                 Name = name
             });
@@ -50,7 +46,7 @@ namespace StorageApi.Storage.Controllers
         [HttpPost("Brand")]
         public Task<IActionResult> PostBrand(PostBrandCommand store)
         {
-            return mediator.Execute(store);
+            return Execute(store);
         }
     }
 }

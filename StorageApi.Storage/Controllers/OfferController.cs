@@ -6,19 +6,14 @@ using StorageApi.Core.Helpers;
 using StorageApi.Core.Models.TemplateResult;
 using StorageApi.Storage.Requests.Commands;
 using StorageApi.Storage.Requests.Queries;
-using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
 namespace StorageApi.Storage.Controllers
 {
     [Authorize]
-    public class OfferController : ControllerBase
+    public class OfferController : CommandQueryController
     {
-        private readonly IMediator mediator;
-        public OfferController(IMediator mediator)
-        {
-            this.mediator = mediator;
-        }
+        public OfferController(IMediator mediator) : base(mediator) { }
 
         [ActionLogger]
         [ProducesResponseType(typeof(Models.Product.GetProductOffer), StatusCodes.Status200OK)]
@@ -27,7 +22,7 @@ namespace StorageApi.Storage.Controllers
         [HttpPost("Offer")]
         public Task<IActionResult> PostOffer([FromBody] PostOfferCommand offer)
         {
-            return mediator.Execute(offer);
+            return Execute(offer);
         }
 
         [ActionLogger]
@@ -37,7 +32,7 @@ namespace StorageApi.Storage.Controllers
         [HttpDelete("Offer")]
         public Task<IActionResult> DeleteOffer([FromQuery] DeleteOfferQuery offer)
         {
-            return mediator.Execute(offer);
+            return Execute(offer);
         }
 
         [ActionLogger]
@@ -47,7 +42,7 @@ namespace StorageApi.Storage.Controllers
         [HttpPut("Offer/Stock")]
         public Task<IActionResult> PutOfferStock([FromBody] PutOfferStockCommand offer)
         {
-            return mediator.Execute(offer);
+            return Execute(offer);
         }
 
         [ActionLogger]
@@ -57,7 +52,7 @@ namespace StorageApi.Storage.Controllers
         [HttpGet("Offer/Stock")]
         public Task<IActionResult> GetOfferStock([FromQuery] GetOfferStockQuery offer)
         {
-            return mediator.Query(offer);
+            return Query(offer);
         }
     }
 }

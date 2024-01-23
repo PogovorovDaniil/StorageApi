@@ -13,20 +13,16 @@ using System.Threading.Tasks;
 namespace StorageApi.Storage.Controllers
 {
     [Authorize]
-    public class StoreController : ControllerBase
+    public class StoreController : CommandQueryController
     {
-        private readonly IMediator mediator;
-        public StoreController(IMediator mediator)
-        {
-            this.mediator = mediator;
-        }
+        public StoreController(IMediator mediator) : base(mediator) { }
 
         [ActionLogger]
         [ProducesResponseType(typeof(IEnumerable<Models.Store>), StatusCodes.Status200OK)]
         [HttpGet("Store")]
         public Task<IActionResult> GetStore([Required] long id)
         {
-            return mediator.Query(new GetStoreQuery
+            return Query(new GetStoreQuery
             {
                 Id = id
             });
@@ -37,7 +33,7 @@ namespace StorageApi.Storage.Controllers
         [HttpGet("StoreByName")]
         public Task<IActionResult> StoreByName(string name)
         {
-            return mediator.Query(new GetStoreQuery
+            return Query(new GetStoreQuery
             {
                 Name = name
             });
@@ -50,7 +46,7 @@ namespace StorageApi.Storage.Controllers
         [HttpPost("Store")]
         public Task<IActionResult> PostStore(PostStoreCommand store)
         {
-            return mediator.Execute(store);
+            return Execute(store);
         }
     }
 }
