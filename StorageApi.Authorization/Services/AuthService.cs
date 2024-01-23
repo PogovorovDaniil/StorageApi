@@ -74,7 +74,7 @@ namespace StorageApi.Authorization.Services
             return new JwtSecurityTokenHandler().WriteToken(jwt);
         }
 
-        private static string HashString(string text)
+        public static string HashString(string text)
         {
             const string salt = "88df38cb6d304c5ead276cad5662455e";
             using (SHA256 hash = SHA256.Create())

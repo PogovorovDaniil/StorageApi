@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StorageApi.Authorization", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StorageApi.Storage", "StorageApi.Storage\StorageApi.Storage.csproj", "{EAC7B645-AE52-4C1A-9B44-928A64F152DA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StorageApi.Tests", "StorageApi.Tests\StorageApi.Tests.csproj", "{AF0E4149-ED09-4D89-B928-28DBBFFDA03C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{EAC7B645-AE52-4C1A-9B44-928A64F152DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAC7B645-AE52-4C1A-9B44-928A64F152DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EAC7B645-AE52-4C1A-9B44-928A64F152DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF0E4149-ED09-4D89-B928-28DBBFFDA03C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF0E4149-ED09-4D89-B928-28DBBFFDA03C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF0E4149-ED09-4D89-B928-28DBBFFDA03C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF0E4149-ED09-4D89-B928-28DBBFFDA03C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
