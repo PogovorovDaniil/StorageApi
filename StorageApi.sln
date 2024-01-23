@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StorageApi.Database", "Stor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StorageApi.Core", "StorageApi.Core\StorageApi.Core.csproj", "{02D108C1-6459-4B23-AA8A-443DBAC79C48}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StorageApi.Authorization", "StorageApi.Authorization\StorageApi.Authorization.csproj", "{545888B5-0309-4AC2-9D67-31B71FE88DC0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StorageApi.Authorization", "StorageApi.Authorization\StorageApi.Authorization.csproj", "{545888B5-0309-4AC2-9D67-31B71FE88DC0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StorageApi.Storage", "StorageApi.Storage\StorageApi.Storage.csproj", "{EAC7B645-AE52-4C1A-9B44-928A64F152DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StorageApi.Storage", "StorageApi.Storage\StorageApi.Storage.csproj", "{EAC7B645-AE52-4C1A-9B44-928A64F152DA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
