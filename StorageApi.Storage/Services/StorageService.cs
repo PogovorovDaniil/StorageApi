@@ -39,7 +39,7 @@ namespace StorageApi.Storage.Services
 
         public async Task<IEnumerable<Store>> GetStore(long id)
         {
-            Store store = await _context.Stores.FirstOrDefaultAsync(x => x.Id == id);
+            Store store = await _context.Stores.FindAsync(id);
             if (store is null) return Array.Empty<Store>();
             return new[] { store };
         }
@@ -79,7 +79,7 @@ WHERE LOWER(Name) LIKE LOWER({0})", $"%{name}%").ToArrayAsync();
 
         public async Task<IEnumerable<Brand>> GetBrand(long id)
         {
-            Brand brand = await _context.Brands.FirstOrDefaultAsync(x => x.Id == id);
+            Brand brand = await _context.Brands.FindAsync(id);
             if (brand is null) return Array.Empty<Brand>();
             return new[] { brand };
         }
@@ -105,7 +105,7 @@ WHERE LOWER(Name) LIKE LOWER({0})", $"%{name}%").ToArrayAsync();
             {
                 return (DBCreateResult.AlreadyExist, null);
             }
-            Brand dbBrand = await _context.Brands.FirstOrDefaultAsync(b => b.Id == product.BrandId);
+            Brand dbBrand = await _context.Brands.FindAsync(product.BrandId);
             Product dbProduct = new Product()
             {
                 Name = product.Name,
@@ -161,7 +161,7 @@ WHERE LOWER(Name) LIKE LOWER({0})", $"%{name}%")
 
         public async Task<DBDeleteResult> DeleteProduct(long id)
         {
-            Product product = await _context.Products.FirstOrDefaultAsync(x => x.Id == id);
+            Product product = await _context.Products.FindAsync(id);
             if (product is null) return DBDeleteResult.UnknownError;
             _context.Remove(product);
             if(await _context.SaveChangesAsync() == 0) return DBDeleteResult.UnknownError;
@@ -176,7 +176,7 @@ WHERE LOWER(Name) LIKE LOWER({0})", $"%{name}%")
             {
                 return (DBCreateResult.AlreadyExist, null);
             }
-            Product dbProduct = await _context.Products.FirstOrDefaultAsync(p => p.Id == offer.ProductId);
+            Product dbProduct = await _context.Products.FindAsync(offer.ProductId);
             if(dbProduct is null) return (DBCreateResult.UnknownError, null);
             Offer dbOffer = new Offer
             {
