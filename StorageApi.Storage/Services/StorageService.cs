@@ -203,13 +203,23 @@ WHERE LOWER(Name) LIKE LOWER({0})", $"%{name}%")
 
         public async Task<DBChangeResult> PutOfferStock(PutOfferStockCommand request)
         {
+            Offer offer = _context.Offers.Find(request.OfferId);
             foreach (var stock in request.StoreStocks)
             {
-                if (await _context.Database.ExecuteSqlRawAsync(
-@"INSERT INTO OfferStocks (OfferId, StoreId, Quantity)
-VALUES ({0}, {1}, {2})
-ON DUPLICATE KEY UPDATE Quantity = VALUES(Quantity);
-", request.OfferId, stock.StoreId, stock.Quantity) == 0) return DBChangeResult.UnknownError;
+                Store store = _context.Stores.Find(stock.StoreId);
+
+                var offerStock = _context.OfferStocks.Find(request.OfferId, stock.StoreId);
+                if (offerStock is null)
+                {
+                    _context.OfferStocks.Add(new OfferStock
+                    {
+                        Offer = offer,
+                        Store = store,
+                        Quantity = stock.Quantity
+                    });
+                    continue;
+                }
+                offerStock.Quantity = stock.Quantity;
             }
             await _context.SaveChangesAsync();
             return DBChangeResult.Success;

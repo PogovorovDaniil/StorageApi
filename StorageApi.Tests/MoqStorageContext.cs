@@ -5,7 +5,7 @@ using System;
 
 namespace StorageApi.Tests
 {
-    public class MoqStorageContext : IDisposable
+    public class MoqStorageContext
     {
         private StorageContext _storageContext;
         public MoqStorageContext()
@@ -18,12 +18,5 @@ namespace StorageApi.Tests
         }
 
         public StorageContext GetContext() { return _storageContext; }
-
-        public void Dispose()
-        {
-            _storageContext.Dispose();
-        }
-
-        ~MoqStorageContext() => Dispose();
     }
 }
