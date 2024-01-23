@@ -1,5 +1,4 @@
-﻿using StorageApi.Database.Contexts;
-using StorageApi.Database.Models.Storage;
+﻿using StorageApi.Database.Models.Storage;
 using StorageApi.Storage.Services;
 using System.Linq;
 
@@ -7,16 +6,16 @@ namespace StorageApi.Tests
 {
     public class StorageTests
     {
-        MoqStorageContext moqContext;
-        StorageContext storageContext => moqContext.GetContext();
-        IStorageService storageService;
+        private IStorageService storageService;
 
         public StorageTests() 
         {
+            var moqContext = new MoqStorageContext();
+            var storageContext = moqContext.GetContext();
+
             Store storeDNS = new Store() { Name = "DNS" };
             Store storeMVideo = new Store() { Name = "М.Видео" };
             Store storeSitilink = new Store() { Name = "Ситилинк" };
-            moqContext = new MoqStorageContext();
 
             storageContext.Stores.Add(storeDNS);
             storageContext.Stores.Add(storeMVideo);
