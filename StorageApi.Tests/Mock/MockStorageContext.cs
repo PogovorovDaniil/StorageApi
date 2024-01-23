@@ -1,22 +1,19 @@
 ﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using StorageApi.Database.Contexts;
-using System;
 
-namespace StorageApi.Tests
+namespace StorageApi.Tests.Mock
 {
-    public class MoqStorageContext
+    public class MockStorageContext
     {
-        private StorageContext _storageContext;
-        public MoqStorageContext()
+        public StorageContext StorageContext { get; }
+        public MockStorageContext()
         {
             var _connection = new SqliteConnection("Filename=:memory:");
             _connection.Open();
             var _contextOptions = new DbContextOptionsBuilder<StorageContext>().UseSqlite(_connection).Options;
-            _storageContext = new StorageContext(_contextOptions);
-            _storageContext.Database.EnsureCreated();
+            StorageContext = new StorageContext(_contextOptions);
+            StorageContext.Database.EnsureCreated();
         }
-
-        public StorageContext GetContext() { return _storageContext; }
     }
 }

@@ -1,9 +1,7 @@
-﻿using Newtonsoft.Json.Bson;
-using StorageApi.Core.Models.Constants;
+﻿using StorageApi.Core.Models.Constants;
 using StorageApi.Database.Models.Storage;
 using StorageApi.Storage.Requests.Commands;
 using StorageApi.Storage.Services;
-using System.ComponentModel;
 using System.Linq;
 
 namespace StorageApi.Tests
@@ -25,8 +23,9 @@ namespace StorageApi.Tests
 
         public StorageTests() 
         {
-            var moqContext = new MoqStorageContext();
-            var storageContext = moqContext.GetContext();
+            var moqContext = new MockStorageContext();
+            var storageContext = moqContext.StorageContext; 
+            storageService = new StorageService(storageContext);
 
             storeDNS = new Store() { Name = "DNS" };
             storeMVideo = new Store() { Name = "М.Видео" };
@@ -61,7 +60,7 @@ namespace StorageApi.Tests
             storageContext.Offers.Add(new Offer() { Product = productApple, Color = "black", Price = 93490 });
             storageContext.SaveChanges();
 
-            storageService = new StorageService(storageContext);
+            
         }
 
         #region Store
