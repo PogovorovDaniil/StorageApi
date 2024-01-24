@@ -55,7 +55,7 @@ namespace StorageApi.Storage.Controllers
         [HttpDelete("Product")]
         public Task<IActionResult> DeleteProduct([Required] long id)
         {
-            return Execute(new DeleteProductQuery
+            return Execute(new DeleteProductCommand
             {
                 Id = id
             });

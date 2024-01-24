@@ -30,7 +30,7 @@ namespace StorageApi.Storage.Controllers
         [ProducesResponseType(typeof(ExceptionResult), StatusCodes.Status409Conflict)]
         [ProducesResponseType(typeof(ExceptionResult), StatusCodes.Status400BadRequest)]
         [HttpDelete("Offer")]
-        public Task<IActionResult> DeleteOffer([FromQuery] DeleteOfferQuery offer)
+        public Task<IActionResult> DeleteOffer([FromQuery] DeleteOfferCommand offer)
         {
             return Execute(offer);
         }

@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace StorageApi.Storage.Requests.Commands
 {
-    public class DeleteOfferQuery : IRequest<CommandResult<SuccessResult>>, ICommand
+    public class DeleteOfferCommand : IRequest<CommandResult<SuccessResult>>, ICommand
     {
         public long Id { get; set; }
 
-        public class DeleteOfferQueryHandler : IRequestHandler<DeleteOfferQuery, CommandResult<SuccessResult>>
+        public class DeleteOfferQueryHandler : IRequestHandler<DeleteOfferCommand, CommandResult<SuccessResult>>
         {
             private readonly IStorageService storageService;
             public DeleteOfferQueryHandler(IStorageService storageService)
@@ -22,7 +22,7 @@ namespace StorageApi.Storage.Requests.Commands
                 this.storageService = storageService;
             }
 
-            public async Task<CommandResult<SuccessResult>> Handle(DeleteOfferQuery request, CancellationToken cancellationToken)
+            public async Task<CommandResult<SuccessResult>> Handle(DeleteOfferCommand request, CancellationToken cancellationToken)
             {
                 var result = await storageService.DeleteOffer(request.Id) == DBDeleteResult.Success;
                 return new CommandResult<SuccessResult>
