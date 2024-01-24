@@ -13,18 +13,18 @@ namespace StorageApi.Authorization.Controllers
     [Route("[controller]/[action]")]
     public class AuthController : ControllerBase
     {
-        private IAuthService _authService;
+        private IAuthService authService;
         public AuthController(IAuthService authService)
         {
-            _authService = authService;
+            this.authService = authService;
         }
 
         [HttpPost]
         [ProducesResponseType(typeof(AuthResult), StatusCodes.Status200OK)]
         public async Task<IActionResult> Token(AuthData authData)
         {
-            (bool pass, string role) = await _authService.TryLogInAsync(authData.Login, authData.Password);
-            if (pass) return new JsonResult(new AuthResult { Token = _authService.GetNewToken(authData.Login, role) });
+            (bool pass, string role) = await authService.TryLogInAsync(authData.Login, authData.Password);
+            if (pass) return new JsonResult(new AuthResult { Token = authService.GetNewToken(authData.Login, role) });
             return new UnauthorizedResult();
         }
 
@@ -35,7 +35,7 @@ namespace StorageApi.Authorization.Controllers
         [ProducesResponseType(typeof(ExceptionResult), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> CreateUser(AuthData authData)
         {
-            DBCreateResult result = await _authService.TryCreateUserAsync(authData.Login, authData.Password);
+            DBCreateResult result = await authService.TryCreateUserAsync(authData.Login, authData.Password);
             switch (result)
             {
                 case DBCreateResult.Success:

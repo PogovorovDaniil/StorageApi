@@ -12,16 +12,16 @@ namespace StorageApi.Storage.Services
 {
     public class StorageService : IStorageService
     {
-        private readonly StorageContext _context;
+        private readonly StorageContext context;
 
         public StorageService(StorageContext context)
         {
-            _context = context;
+            this.context = context;
         }
         #region Store
         public async Task<(DBCreateResult result, Store store)> CreateStore(PostStoreCommand store)
         {
-            if (await _context.Stores.AnyAsync(u => u.Name.ToLower().Trim() == store.Name.ToLower().Trim()))
+            if (await context.Stores.AnyAsync(u => u.Name.ToLower().Trim() == store.Name.ToLower().Trim()))
             {
                 return (DBCreateResult.AlreadyExist, null);
             }
@@ -29,8 +29,8 @@ namespace StorageApi.Storage.Services
             {
                 Name = store.Name
             };
-            await _context.Stores.AddAsync(dbStore);
-            if (await _context.SaveChangesAsync() == 1)
+            await context.Stores.AddAsync(dbStore);
+            if (await context.SaveChangesAsync() == 1)
             {
                 return (DBCreateResult.Success, dbStore);
             }
@@ -39,14 +39,14 @@ namespace StorageApi.Storage.Services
 
         public async Task<IEnumerable<Store>> GetStore(long id)
         {
-            Store store = await _context.Stores.FindAsync(id);
+            Store store = await context.Stores.FindAsync(id);
             if (store is null) return Array.Empty<Store>();
             return new[] { store };
         }
 
         public async Task<IEnumerable<Store>> GetStore(string name)
         {
-            return await _context.Stores.FromSqlRaw(
+            return await context.Stores.FromSqlRaw(
 @"SELECT Id, Name
 FROM `Stores`
 WHERE LOWER(Name) LIKE LOWER({0})", $"%{name}%").ToArrayAsync();
@@ -54,14 +54,14 @@ WHERE LOWER(Name) LIKE LOWER({0})", $"%{name}%").ToArrayAsync();
 
         public async Task<IEnumerable<Store>> GetStores()
         {
-            return await _context.Stores.ToArrayAsync();
+            return await context.Stores.ToArrayAsync();
         }
         #endregion
 
         #region Brand
         public async Task<(DBCreateResult result, Brand store)> CreateBrand(PostBrandCommand brand)
         {
-            if (await _context.Brands.AnyAsync(u => u.Name.ToLower().Trim() == brand.Name.ToLower().Trim()))
+            if (await context.Brands.AnyAsync(u => u.Name.ToLower().Trim() == brand.Name.ToLower().Trim()))
             {
                 return (DBCreateResult.AlreadyExist, null);
             }
@@ -69,8 +69,8 @@ WHERE LOWER(Name) LIKE LOWER({0})", $"%{name}%").ToArrayAsync();
             {
                 Name = brand.Name
             };
-            await _context.Brands.AddAsync(dbBrand);
-            if (await _context.SaveChangesAsync() == 1)
+            await context.Brands.AddAsync(dbBrand);
+            if (await context.SaveChangesAsync() == 1)
             {
                 return (DBCreateResult.Success, dbBrand);
             }
@@ -79,14 +79,14 @@ WHERE LOWER(Name) LIKE LOWER({0})", $"%{name}%").ToArrayAsync();
 
         public async Task<IEnumerable<Brand>> GetBrand(long id)
         {
-            Brand brand = await _context.Brands.FindAsync(id);
+            Brand brand = await context.Brands.FindAsync(id);
             if (brand is null) return Array.Empty<Brand>();
             return new[] { brand };
         }
 
         public async Task<IEnumerable<Brand>> GetBrand(string name)
         {
-            return await _context.Brands.FromSqlRaw(
+            return await context.Brands.FromSqlRaw(
 @"SELECT Id, Name
 FROM `Brands`
 WHERE LOWER(Name) LIKE LOWER({0})", $"%{name}%").ToArrayAsync();
@@ -94,25 +94,25 @@ WHERE LOWER(Name) LIKE LOWER({0})", $"%{name}%").ToArrayAsync();
 
         public async Task<IEnumerable<Brand>> GetBrands()
         {
-            return await _context.Brands.ToArrayAsync();
+            return await context.Brands.ToArrayAsync();
         }
         #endregion
 
         #region Product
         public async Task<(DBCreateResult result, Product dbProduct)> CreateProduct(PostProductCommand product)
         {
-            if (await _context.Products.AnyAsync(u => u.Name.ToLower().Trim() == product.Name.ToLower().Trim()))
+            if (await context.Products.AnyAsync(u => u.Name.ToLower().Trim() == product.Name.ToLower().Trim()))
             {
                 return (DBCreateResult.AlreadyExist, null);
             }
-            Brand dbBrand = await _context.Brands.FindAsync(product.BrandId);
+            Brand dbBrand = await context.Brands.FindAsync(product.BrandId);
             Product dbProduct = new Product()
             {
                 Name = product.Name,
                 Brand = dbBrand,
             };
-            await _context.Products.AddAsync(dbProduct);
-            if (await _context.SaveChangesAsync() == 0) return (DBCreateResult.UnknownError, null);
+            await context.Products.AddAsync(dbProduct);
+            if (await context.SaveChangesAsync() == 0) return (DBCreateResult.UnknownError, null);
 
             foreach (var offer in product.Offers)
             {
@@ -123,16 +123,16 @@ WHERE LOWER(Name) LIKE LOWER({0})", $"%{name}%").ToArrayAsync();
                     Size = offer.Size,
                     Price = offer.Price,
                 };
-                await _context.Offers.AddAsync(dbOffer);
+                await context.Offers.AddAsync(dbOffer);
             }
-            if (await _context.SaveChangesAsync() == 0) return (DBCreateResult.UnknownError, null);
+            if (await context.SaveChangesAsync() == 0) return (DBCreateResult.UnknownError, null);
             
             return (DBCreateResult.Success, dbProduct);
         }
 
         public async Task<IEnumerable<Product>> GetProduct(long id)
         {
-            Product product = await _context.Products
+            Product product = await context.Products
                 .Include(p => p.Brand)
                 .Include(p => p.Offers)
                 .FirstOrDefaultAsync(x => x.Id == id);
@@ -142,7 +142,7 @@ WHERE LOWER(Name) LIKE LOWER({0})", $"%{name}%").ToArrayAsync();
 
         public async Task<IEnumerable<Product>> GetProduct(string name)
         {
-            return await _context.Products.FromSqlRaw(
+            return await context.Products.FromSqlRaw(
 @"SELECT Id, BrandId, Name
 FROM `Products`
 WHERE LOWER(Name) LIKE LOWER({0})", $"%{name}%")
@@ -153,7 +153,7 @@ WHERE LOWER(Name) LIKE LOWER({0})", $"%{name}%")
 
         public async Task<IEnumerable<Product>> GetProducts()
         {
-            return await _context.Products
+            return await context.Products
                 .Include(p => p.Brand)
                 .Include(p => p.Offers)
                 .ToArrayAsync();
@@ -161,10 +161,10 @@ WHERE LOWER(Name) LIKE LOWER({0})", $"%{name}%")
 
         public async Task<DBDeleteResult> DeleteProduct(long id)
         {
-            Product product = await _context.Products.FindAsync(id);
+            Product product = await context.Products.FindAsync(id);
             if (product is null) return DBDeleteResult.UnknownError;
-            _context.Remove(product);
-            if(await _context.SaveChangesAsync() == 0) return DBDeleteResult.UnknownError;
+            context.Remove(product);
+            if(await context.SaveChangesAsync() == 0) return DBDeleteResult.UnknownError;
             return DBDeleteResult.Success;
         }
         #endregion
@@ -172,11 +172,11 @@ WHERE LOWER(Name) LIKE LOWER({0})", $"%{name}%")
         #region Offer
         public async Task<(DBCreateResult dbResult, Offer dbOffer)> CreateOffer(PostOfferCommand offer)
         {
-            if (await _context.Offers.AnyAsync(o => o.Size == offer.Size && o.Color == offer.Color))
+            if (await context.Offers.AnyAsync(o => o.Size == offer.Size && o.Color == offer.Color))
             {
                 return (DBCreateResult.AlreadyExist, null);
             }
-            Product dbProduct = await _context.Products.FindAsync(offer.ProductId);
+            Product dbProduct = await context.Products.FindAsync(offer.ProductId);
             if(dbProduct is null) return (DBCreateResult.UnknownError, null);
             Offer dbOffer = new Offer
             {
@@ -186,32 +186,32 @@ WHERE LOWER(Name) LIKE LOWER({0})", $"%{name}%")
                 Price = offer.Price,
             };
 
-            await _context.Offers.AddAsync(dbOffer);
-            if (await _context.SaveChangesAsync() == 0) return (DBCreateResult.UnknownError, null);
+            await context.Offers.AddAsync(dbOffer);
+            if (await context.SaveChangesAsync() == 0) return (DBCreateResult.UnknownError, null);
 
             return (DBCreateResult.Success, dbOffer);
         }
 
         public async Task<DBDeleteResult> DeleteOffer(long id)
         {
-            Offer offer = await _context.Offers.FirstOrDefaultAsync(x => x.Id == id);
+            Offer offer = await context.Offers.FirstOrDefaultAsync(x => x.Id == id);
             if (offer is null) return DBDeleteResult.UnknownError;
-            _context.Remove(offer);
-            if (await _context.SaveChangesAsync() == 0) return DBDeleteResult.UnknownError;
+            context.Remove(offer);
+            if (await context.SaveChangesAsync() == 0) return DBDeleteResult.UnknownError;
             return DBDeleteResult.Success;
         }
 
         public async Task<DBChangeResult> PutOfferStock(PutOfferStockCommand request)
         {
-            Offer offer = _context.Offers.Find(request.OfferId);
+            Offer offer = context.Offers.Find(request.OfferId);
             foreach (var stock in request.StoreStocks)
             {
-                Store store = _context.Stores.Find(stock.StoreId);
+                Store store = context.Stores.Find(stock.StoreId);
 
-                var offerStock = _context.OfferStocks.Find(request.OfferId, stock.StoreId);
+                var offerStock = context.OfferStocks.Find(request.OfferId, stock.StoreId);
                 if (offerStock is null)
                 {
-                    _context.OfferStocks.Add(new OfferStock
+                    context.OfferStocks.Add(new OfferStock
                     {
                         Offer = offer,
                         Store = store,
@@ -221,13 +221,13 @@ WHERE LOWER(Name) LIKE LOWER({0})", $"%{name}%")
                 }
                 offerStock.Quantity = stock.Quantity;
             }
-            await _context.SaveChangesAsync();
+            await context.SaveChangesAsync();
             return DBChangeResult.Success;
         }
 
         public async Task<OfferStock[]> GetOfferStocks(long offerId)
         {
-            return await _context.OfferStocks.Include(o => o.Offer).Include(o => o.Store).Where(o => o.Offer.Id == offerId).ToArrayAsync();
+            return await context.OfferStocks.Include(o => o.Offer).Include(o => o.Store).Where(o => o.Offer.Id == offerId).ToArrayAsync();
         }
         #endregion
     }

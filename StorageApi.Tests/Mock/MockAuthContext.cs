@@ -9,10 +9,10 @@ namespace StorageApi.Tests.Mock
         public AuthorizationContext AuthContext { get; }
         public MockAuthContext()
         {
-            var _connection = new SqliteConnection("Filename=:memory:");
-            _connection.Open();
-            var _contextOptions = new DbContextOptionsBuilder<AuthorizationContext>().UseSqlite(_connection).Options;
-            AuthContext = new AuthorizationContext(_contextOptions);
+            var connection = new SqliteConnection("Filename=:memory:");
+            connection.Open();
+            var contextOptions = new DbContextOptionsBuilder<AuthorizationContext>().UseSqlite(connection).Options;
+            AuthContext = new AuthorizationContext(contextOptions);
             AuthContext.Database.EnsureCreated();
         }
     }

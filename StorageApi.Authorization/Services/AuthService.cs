@@ -17,25 +17,25 @@ namespace StorageApi.Authorization.Services
 {
     public class AuthService : IAuthService
     {
-        private readonly AuthConfiguration _authConfiguration;
-        private readonly AuthorizationContext _context;
+        private readonly AuthConfiguration authConfiguration;
+        private readonly AuthorizationContext context;
 
         private const string rootLogin = "root";
 
         public AuthService(AuthConfiguration authConfiguration, AuthorizationContext context)
         {
-            _authConfiguration = authConfiguration;
-            _context = context;
+            this.authConfiguration = authConfiguration;
+            this.context = context;
         }
 
         public async Task<(bool pass, string role)> TryLogInAsync(string login, string password)
         {
-            if (login == rootLogin && password == _authConfiguration.RootPassword)
+            if (login == rootLogin && password == authConfiguration.RootPassword)
             {
                 return (true, Roles.Admin);
             }
 
-            if (await _context.Users.AnyAsync(u => u.Login == login && u.PasswordHash == HashString(password)))
+            if (await context.Users.AnyAsync(u => u.Login == login && u.PasswordHash == HashString(password)))
             {
                 return (true, Roles.User);
             }
@@ -45,16 +45,16 @@ namespace StorageApi.Authorization.Services
 
         public async Task<DBCreateResult> TryCreateUserAsync(string login, string password)
         {
-            if (await _context.Users.AnyAsync(u => u.Login == login))
+            if (await context.Users.AnyAsync(u => u.Login == login))
             {
                 return DBCreateResult.AlreadyExist;
             }
-            await _context.Users.AddAsync(new User()
+            await context.Users.AddAsync(new User()
             {
                 Login = login,
                 PasswordHash = HashString(password)
             });
-            if (await _context.SaveChangesAsync() == 1)
+            if (await context.SaveChangesAsync() == 1)
             {
                 return DBCreateResult.Success;
             }
@@ -65,11 +65,11 @@ namespace StorageApi.Authorization.Services
         {
             var claims = new List<Claim> { new Claim(ClaimTypes.Name, login), new Claim(ClaimTypes.Role, role) };
             var jwt = new JwtSecurityToken(
-                issuer: _authConfiguration.Issuer,
-                audience: _authConfiguration.Audience,
+                issuer: authConfiguration.Issuer,
+                audience: authConfiguration.Audience,
                 claims: claims,
                 expires: DateTime.UtcNow.AddDays(1),
-                signingCredentials: new SigningCredentials(_authConfiguration.IssuerSigningKey, SecurityAlgorithms.HmacSha256));
+                signingCredentials: new SigningCredentials(authConfiguration.IssuerSigningKey, SecurityAlgorithms.HmacSha256));
 
             return new JwtSecurityTokenHandler().WriteToken(jwt);
         }
